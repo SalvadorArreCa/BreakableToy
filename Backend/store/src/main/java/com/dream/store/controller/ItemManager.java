@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;;
 @RestController
 public class ItemManager {
     
-    @GetMapping(path = "/catalogo/leer")
+    @GetMapping(path = "/products")
     @CrossOrigin(origins = "http://localhost:8080")
     public List<Items> Catalogo() {
         ObjectMapper mapper = new ObjectMapper();
@@ -27,10 +27,10 @@ public class ItemManager {
         }
     }
 
-    @PostMapping(path = "/catalogo/inicializar")
-    public void crearCatalogo(){
+    @PostMapping(path = "/catalogue/create")
+    public void createCatalogue(){
         List<Items> Catalogo = new ArrayList<>();
-        Catalogo = Items.inicializar();
+        Catalogo = Items.createCatalogue();
         ObjectMapper mapper = new ObjectMapper();
         try{
             mapper.writeValue(new File("src/main/resources/catalogo.json"), Catalogo);

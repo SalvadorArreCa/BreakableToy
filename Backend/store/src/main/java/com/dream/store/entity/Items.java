@@ -10,16 +10,20 @@ public class Items {
     private String name;
     private double price;
     private int stock;
-    private String date;
+    private String expiration_date;
+    private String creation_date;
+    private String update_date;
 
     //Constructor
-    public Items(long id, String category, String name, double price, int stock, String date){
+    public Items(long id, String category, String name, double price, int stock, String expiration_date, String creation_date, String update_date){
         this.id = id;
         this.category = category;
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.date = date;
+        this.expiration_date = expiration_date;
+        this.creation_date = creation_date;
+        this.update_date = update_date;
     }
 
     //Getters
@@ -28,7 +32,9 @@ public class Items {
     public String getCategory(){ return category; }
     public double getPrice(){ return price; }
     public int getStock(){ return stock; }
-    public String getDate(){ return date; }
+    public String getExpirationDate(){ return expiration_date; }
+    public String getCreationDate(){ return creation_date; }
+    public String getUpdateDate(){ return update_date; }
 
     //Setters
     public void setId(long id){ this.id = id; }
@@ -36,34 +42,23 @@ public class Items {
     public void setCategory(String category){ this.category = category; }
     public void setPrice(double price){ this.price = price; }
     public void setStock(int stock){ this.stock = stock; }
-    public void setDate(String date){this.date = date; }
+    public void setExpirationDate(String date){this.expiration_date = date; }
+    public void setCreationDate(String date){ this.creation_date = date; }
+    public void setUpdateDate(String date){this.update_date = date;}
 
     //Inicializar valores
-    public static List<Items> inicializar(){
-        List<Items> Catalogo = new ArrayList<>();
+    public static List<Items> createCatalogue(){
+        List<Items> Catalogue = new ArrayList<>();
 
-        Catalogo.add(new Items(1,"Comida", "Yogurt", 10.0, 10, "2026-06-30"));
-        Catalogo.add(new Items(2,"Comida", "Mermelada", 80.0, 5, "2025-8-10"));
-        Catalogo.add(new Items(3,"Comida", "Rajas", 50.0, 10, "2025-8-5"));
-        Catalogo.add(new Items(4,"Comida", "Manzana", 10.0, 30, "2025-6-25"));
-        Catalogo.add(new Items(5,"Ropa", "Pantalon", 500.0, 3, null));
-        Catalogo.add(new Items(6,"Ropa", "Playera", 150.0, 10,null));
-        Catalogo.add(new Items(7,"Herramientas", "Martillo", 300.0, 10, null));
-        Catalogo.add(new Items(8,"Papeleria", "Pluma gel", 75.0, 0, null));
+        Catalogue.add(new Items(1,"Comida", "Yogurt", 10.0, 10, "2025-06-30", "2025-06-30",null));
+        Catalogue.add(new Items(2,"Comida", "Mermelada", 80.0, 5, "2025-8-10", "2025-06-5", "2025-06-10"));
+        Catalogue.add(new Items(3,"Comida", "Rajas", 50.0, 10, "2025-8-5", "2025-06-10", null));
+        Catalogue.add(new Items(4,"Comida", "Manzana", 10.0, 30, "2025-06-25", "2025-06-10", null));
+        Catalogue.add(new Items(5,"Ropa", "Pantalon", 500.0, 3, null, "2025-05-15", "2025-06-10"));
+        Catalogue.add(new Items(6,"Ropa", "Playera", 150.0, 10,null,"2025-05-15", "2025-06-08"));
+        Catalogue.add(new Items(7,"Herramientas", "Martillo", 300.0, 10, null, "2024-12-15", "2025-03-13"));
+        Catalogue.add(new Items(8,"Papeleria", "Pluma gel", 75.0, 0, null, "2025-05-15", "2025-06-10"));
 
-        return Catalogo;
-    }
-
-    public static void imprimirInfo(List<Items> Catalogo){
-        System.out.println("Longitud del Catalogo: " + Catalogo.size());
-        
-        for(Items item : Catalogo){
-            System.out.println( "Id: " + item.id +
-                                "Categoria: " + item.category +
-                                "Nombre: " + item.name + 
-                                "Precio: " + item.price +
-                                "Stock: " + item.stock +
-                                "Fecha de Caducidad: " + item.date);
-        }
+        return Catalogue;
     }
 }
