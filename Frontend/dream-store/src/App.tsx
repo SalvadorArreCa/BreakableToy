@@ -1,16 +1,23 @@
-import { useState } from 'react'
+import { CatalogueProvider, MetricsProvider } from "./context/CatalogueContext";
+import ProductsTable from "./components/ProductsTable";
+
 import './App.css'
 import './index.css';
+import MetricsTable from "./components/MetricsTable";
 
-import Catalogue from './components/Catalogue'
+//import Catalogue from './components/Catalogue'
 
 function App() {
 
   return (
     <>
-      <div className=''>
-        <Catalogue />
-      </div>
+      <CatalogueProvider>
+        <ProductsTable />
+      </CatalogueProvider>
+      
+      <MetricsProvider>
+        <MetricsTable />
+      </MetricsProvider>
     </>
   );
 }
