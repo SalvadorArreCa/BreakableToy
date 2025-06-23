@@ -1,13 +1,11 @@
-import { useMetrics } from "../hooks/useMetrics"
-import Table from 'react-bootstrap/Table'
+import { useCatalogue } from "../hooks/useCatalogue"
 
 const MetricsTable: React.FC = () => {
-    const { metrics } = useMetrics();
+    const { metrics } = useCatalogue();
 
     return(<>
-        {/* Metricas */}
             <div className="my-4">
-                <Table>
+                <table className="table text-lg">
                     <thead>
                         <tr>
                             <th></th>
@@ -26,7 +24,7 @@ const MetricsTable: React.FC = () => {
                                 </tr>
                         ))}
                     </tbody>
-                </Table>
+                </table>
             </div>
     </>);
 }

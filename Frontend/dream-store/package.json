@@ -13,6 +13,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.8",
     "bootstrap": "^5.3.6",
+    "daisyui": "^5.0.43",
     "jest-environment-jsdom": "^30.0.0",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.10",

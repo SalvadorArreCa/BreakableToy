@@ -2,13 +2,25 @@ import { createContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import type { Items } from "../types"
 import type { Metrics } from "../types"
-import { getCatalogue, getMetrics } from "../services/CatalogueManagement";
+import { addProductService, editProductService, getCatalogue, getMetrics } from "../services/CatalogueManagement";
 import { setProductOutOfStock } from "../services/CatalogueManagement";
 
 interface CatalogueContextProps {
     items: Items[];
+    metrics: Metrics[];
     catalogueSize: number;
-    invert: boolean,
+    invert: boolean;
+    page: number;
+    sort: number;
+    filterName: string;
+    filterCategory: string[];
+    filterStock: number;
+    addModal: boolean;
+    modalMode: boolean;
+    productData: Items;
+    setAddModal: (addModal: boolean) => void;
+    setModalMode: (modalMode: boolean) => void;
+    setProductData: (productData: Items) => void;
     setPage: (page: number) => void;
     setSort: (sort: number) => void;
     setFilterName: (name: string) => void;
@@ -17,32 +29,47 @@ interface CatalogueContextProps {
     setInvert: (invert: boolean) => void;
 }
 
-interface MetricsContextProps {
-    metrics: Metrics[];
-}
 
 interface ProviderProps { children: ReactNode }
 
 export const CatalogueContext = createContext<CatalogueContextProps | null>(null);
-export const MetricsContext = createContext<MetricsContextProps | null>(null);
 
 export const CatalogueProvider: React.FC<ProviderProps> = ({ children }) => {
-    const [items, setItems] = useState<Items[]>([]);
+   const [items, setItems] = useState<Items[]>([]);
+   const [metrics, setMetrics] = useState<Metrics[]>([]);
     const [catalogueSize, setCatalogueSize] = useState(0);
     const [page, setPage] = useState(0);
     const [sort, setSort] = useState(1);
     const [invert, setInvert] = useState(false);
-    const [filterName, setFilterName] = useState<String>("");
-    const [filterCategory, setFilterCategory] = useState<String[]>([]);
+    const [addModal, setAddModal] = useState(false);
+    const [modalMode, setModalMode] = useState(false);
+    const [filterName, setFilterName] = useState<string>("");
+    const [filterCategory, setFilterCategory] = useState<string[]>([]);
     const [filterStock, setFilterStock] = useState<number>(3);
+
+const defaultValue = {
+        id: 0,
+        category: "",
+        name: "",
+        price: 0.0,
+        stock: 0,
+        expirationDate: "",
+        creationDate: "",
+        updateDate: ""
+    }
+    const [productData, setProductData] = useState<Items>(defaultValue);  
+    
     
     useEffect(() => {
         const fetchData = async () => {
             const data = await getCatalogue(page, sort, invert, filterName, filterCategory, filterStock);
-
+            const metricsData = await getMetrics();
             if(data) {
                 setItems(data.items);
                 setCatalogueSize(data.catalogueSize);
+            }
+            if(metricsData) {
+                setMetrics(metricsData);
             }
         }
         fetchData();
@@ -51,8 +78,20 @@ export const CatalogueProvider: React.FC<ProviderProps> = ({ children }) => {
     return (
         <CatalogueContext.Provider value ={{ 
             items, 
+            metrics,
             catalogueSize, 
             invert,
+            page,
+            sort,
+            filterName,
+            filterCategory,
+            filterStock,
+            addModal,
+            modalMode,
+            productData,
+            setAddModal,
+            setModalMode,
+            setProductData,
             setPage, 
             setSort,
             setInvert,
@@ -65,22 +104,25 @@ export const CatalogueProvider: React.FC<ProviderProps> = ({ children }) => {
     );
 }
 
-export const MetricsProvider: React.FC<ProviderProps> = ({ children }) => {
-    const [metrics, setMetrics] = useState<Metrics[]>([]);
-    useEffect(() => {
-        const fetchMetrics = async () => {
-            const data = await getMetrics();
-            if(data) setMetrics(data);
-        }
-        fetchMetrics();
-    });
-    return(
-        <MetricsContext.Provider value = {{metrics}}>
-            { children }
-        </MetricsContext.Provider>
-    );
-} 
-
 export const setOutOfStock = async (id: number) => {
     await setProductOutOfStock(id);
+}
+
+export const addProduct = async (
+    productData: Items, 
+    catalogueSize: number, 
+    setAddModal: (addModal: boolean) => void,
+    setNewCategory: (newCategory: boolean) => void,
+    setProductData: (productData: Items) => void
+    ) => {
+    await addProductService(productData, catalogueSize, setAddModal, setNewCategory, setProductData);
+}
+
+export const editProduct = async (
+    productData: Items,
+    setAddModal: (addModal: boolean) => void,
+    setNewCategory: (newCategory: boolean) => void,
+    setProductData: (productData: Items) => void
+) =>{
+    await editProductService(productData, setAddModal, setNewCategory, setProductData);
 }
