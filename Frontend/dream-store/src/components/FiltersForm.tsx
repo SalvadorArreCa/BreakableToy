@@ -43,13 +43,13 @@ const FilterForm: React.FC = () => {
     }
 
     return(<>
-        <div className="flex flex-row bg-neutral-500 rounded-xl p-6 gap-6">
+        <div className="flex flex-row bg-neutral-400 rounded-xl shadow-xl p-6 gap-6">
             <div className="flex flex-col gap-4 basis-1/2">
                 <div className="flex items-center gap-4">
                 <label className="w-28 text-white">Name</label>
                 <input
                     type="text"
-                    className="input bg-white w-full rounded-md px-3 py-2"
+                    className="input bg-white w-full rounded-md shadow-sm px-3 py-2"
                     id="input-name-search"
                     value={String(filterName)}
                     onChange={(e) => setFilterName(e.target.value)}
@@ -60,7 +60,7 @@ const FilterForm: React.FC = () => {
                     <label className="w-28 text-white">Category</label>
                     <select
                         aria-label="Category select"
-                        className="select bg-white w-full rounded-md px-3 py-2"
+                        className="select bg-white w-full rounded-md shadow-sm px-3 py-2"
                         value={String(gura)}
                         onChange={(e) => setGura(e.target.value)}
                     >
@@ -83,7 +83,7 @@ const FilterForm: React.FC = () => {
                     <label className="w-28 text-white">Availability</label>
                     <select
                         aria-label="Stock select"
-                        className="select bg-white w-full rounded-md px-3 py-2"
+                        className="select bg-white w-full rounded-md shadow-sm px-3 py-2"
                         value={Number(filterStock)}
                         onChange={(e) => setFilterStock(Number(e.target.value))}
                     >
@@ -95,7 +95,7 @@ const FilterForm: React.FC = () => {
                 </div>
             </div>
 
-            <div className="basis-1/2 bg-white rounded-md p-4">
+            <div className="basis-1/2 bg-white rounded-md shadow-sm p-4">
                 <ul className="space-y-2">
                     {filterCategory.map((category, index) => (
                     <li key={index} className="flex justify-between items-center border-b pb-1">

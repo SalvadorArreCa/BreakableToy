@@ -1,9 +1,9 @@
 import { useCatalogue  } from '../hooks/useCatalogue'
-import { setOutOfStock } from '../context/CatalogueContext';
+import { setOutOfStock, deleteProduct } from '../context/CatalogueContext';
 
 const ProductsTable: React.FC = () => {
 
-    const { items, catalogueSize, invert, setPage, setSort, setInvert, setProductData, setAddModal, setModalMode} = useCatalogue();
+    const { items, catalogueSize, invert, setPage, setSort, setInvert, setProductData, setAddModal, setModalMode, refreshCatalgue} = useCatalogue();
     const invertOrder = (value: number) => {
         setSort(value);
         if(invert) setInvert(false);
@@ -15,7 +15,7 @@ const ProductsTable: React.FC = () => {
     return (
         <>
         {/* TABLA DE PRODUCTOS */}
-            <table className='w-full bg-white'>
+            <table className='w-full table-fix bg-white break-words shadow-lg'>
                 <thead>
                     <tr className='bg-primary border-1'>
                         <th className="px-6 py-3 border-1"></th>
@@ -33,7 +33,7 @@ const ProductsTable: React.FC = () => {
                     {items.map((item) => (
                         <tr key={item.id}>
                             <td className="text-center py-4 px-6 border-1">
-                                <button className="btn btn-outline" onClick={() => setOutOfStock(item?.id)}> X </button>
+                                <button className="btn btn-outline" onClick={() => setOutOfStock(item?.id,refreshCatalgue)}> X </button>
                             </td>
                             <td className='px-6 border-1'>{item?.id}</td>
                             <td className='px-6 border-1'>{item?.category}</td>
@@ -55,7 +55,7 @@ const ProductsTable: React.FC = () => {
                                 }}>Edit</button>
                             </td>
                             <td className='py-4 px-6 border-1'>
-                                <button className='btn btn-danger' onClick={() => {console.log("No hace nada jsjsjs")}/*</td>deleteProduct(item.id)*/}>Delete</button>
+                                <button className='btn btn-danger' onClick={() => {deleteProduct(item.id, refreshCatalgue)}}>Delete</button>
                             </td>
                         </tr>
                     ))}

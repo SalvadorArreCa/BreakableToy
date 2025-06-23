@@ -11,6 +11,7 @@ const ProductModal: React.FC = () => {
     setAddModal,
     setProductData,
     addModal,
+    refreshCatalgue
   } = useCatalogue();
 
   const [newCategory, setNewCategory] = useState(false);
@@ -135,19 +136,19 @@ const ProductModal: React.FC = () => {
           <button
             onClick={() => {
               if (modalMode) {
-                addProduct(productData, catalogueSize, setAddModal, setNewCategory, setProductData);
+                addProduct(productData, catalogueSize, setAddModal, setNewCategory, setProductData, refreshCatalgue);
               } else {
-                editProduct(productData, setAddModal, setNewCategory, setProductData);
+                editProduct(productData, setAddModal, setNewCategory, setProductData, refreshCatalgue);
               }
               closeModal();
             }}
-            className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white"
+            className="btn btn-primary px-4 py-2 hover:bg-green-700 rounded text-white"
           >
             {modalMode ? "Add" : "Edit"}
           </button>
           <button
             onClick={closeModal}
-            className="px-4 py-2 bg-gray-500 hover:bg-gray-600 rounded text-white"
+            className="btn btn-danger px-4 py-2 hover:bg-gray-600 rounded text-white"
           >
             Cancel
           </button>

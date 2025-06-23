@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import ProductsTable from "../components/ProductsTable";
+import FilterForm from "../components/FiltersForm";
 import { CatalogueContext } from "../context/CatalogueContext";
 
 jest.mock("../services/CatalogueManagement", () => ({
@@ -115,11 +115,11 @@ test("renders ProductsTable without crashing", () => {
 
   render(
     <CatalogueContext.Provider value={contextMock}>
-      <ProductsTable />
+      <FilterForm />
     </CatalogueContext.Provider>
   );
 
-  expect(screen.getByText("Categoria")).toBeInTheDocument();
-  expect(screen.getByText("Papas")).toBeInTheDocument();
-  expect(screen.getByText("Agua")).toBeInTheDocument();
+  expect(screen.getByText("Name")).toBeInTheDocument();
+  expect(screen.getByText("Category")).toBeInTheDocument();
+  expect(screen.getByText("Availability")).toBeInTheDocument();
 });

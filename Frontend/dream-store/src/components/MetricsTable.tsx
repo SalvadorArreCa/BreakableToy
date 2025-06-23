@@ -4,7 +4,7 @@ const MetricsTable: React.FC = () => {
     const { metrics } = useCatalogue();
 
     return(<>
-            <div className="my-4">
+            <div className="p-4 bg-white rounded-lg shadow-lg">
                 <table className="table text-lg">
                     <thead>
                         <tr>

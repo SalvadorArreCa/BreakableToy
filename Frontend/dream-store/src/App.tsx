@@ -13,9 +13,9 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-col bg-neutral-700 h-full px-50 py-10">
-        <p className="text-6xl font-bold text-slate-200 text-center">Catalogo</p>
-        
+      <div className="flex flex-col bg-neutral-100 h-full px-50 py-10">
+        <p className="text-6xl font-bold text-neutral-700 text-center">Catalogo</p>
+
         <CatalogueProvider>
             <FilterForm />
             <ProductsTable />

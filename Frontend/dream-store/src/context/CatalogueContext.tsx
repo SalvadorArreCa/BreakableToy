@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import type { Items } from "../types"
 import type { Metrics } from "../types"
-import { addProductService, editProductService, getCatalogue, getMetrics } from "../services/CatalogueManagement";
+import { addProductService, deleteProductService, editProductService, getCatalogue, getMetrics } from "../services/CatalogueManagement";
 import { setProductOutOfStock } from "../services/CatalogueManagement";
 
 interface CatalogueContextProps {
@@ -18,6 +18,7 @@ interface CatalogueContextProps {
     addModal: boolean;
     modalMode: boolean;
     productData: Items;
+    refreshCatalgue: () => void;
     setAddModal: (addModal: boolean) => void;
     setModalMode: (modalMode: boolean) => void;
     setProductData: (productData: Items) => void;
@@ -59,10 +60,8 @@ const defaultValue = {
     }
     const [productData, setProductData] = useState<Items>(defaultValue);  
     
-    
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = await getCatalogue(page, sort, invert, filterName, filterCategory, filterStock);
+    const refreshCatalgue = async ()  => {
+        const data = await getCatalogue(page, sort, invert, filterName, filterCategory, filterStock);
             const metricsData = await getMetrics();
             if(data) {
                 setItems(data.items);
@@ -71,6 +70,11 @@ const defaultValue = {
             if(metricsData) {
                 setMetrics(metricsData);
             }
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+         refreshCatalgue();   
         }
         fetchData();
     }, [page, sort, invert, filterName, filterCategory, filterStock, catalogueSize]);
@@ -89,6 +93,7 @@ const defaultValue = {
             addModal,
             modalMode,
             productData,
+            refreshCatalgue,
             setAddModal,
             setModalMode,
             setProductData,
@@ -104,8 +109,9 @@ const defaultValue = {
     );
 }
 
-export const setOutOfStock = async (id: number) => {
+export const setOutOfStock = async (id: number, refreshCatalgue: () => void) => {
     await setProductOutOfStock(id);
+    await refreshCatalgue();
 }
 
 export const addProduct = async (
@@ -113,16 +119,25 @@ export const addProduct = async (
     catalogueSize: number, 
     setAddModal: (addModal: boolean) => void,
     setNewCategory: (newCategory: boolean) => void,
-    setProductData: (productData: Items) => void
+    setProductData: (productData: Items) => void,
+    refreshCatalgue: () => void
     ) => {
     await addProductService(productData, catalogueSize, setAddModal, setNewCategory, setProductData);
+    await refreshCatalgue();
 }
 
 export const editProduct = async (
     productData: Items,
     setAddModal: (addModal: boolean) => void,
     setNewCategory: (newCategory: boolean) => void,
-    setProductData: (productData: Items) => void
+    setProductData: (productData: Items) => void,
+    refreshCatalgue: () => void
 ) =>{
     await editProductService(productData, setAddModal, setNewCategory, setProductData);
+    await refreshCatalgue();
+}
+
+export const deleteProduct = async (id: number, refreshCatalgue: () => void) => {
+    await deleteProductService(id);
+    await refreshCatalgue();
 }
