@@ -1,6 +1,4 @@
 package com.dream.store.entity;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -45,20 +43,4 @@ public class Items {
     public void setExpirationDate(String date){this.expiration_date = date; }
     public void setCreationDate(String date){ this.creation_date = date; }
     public void setUpdateDate(String date){this.update_date = date;}
-
-    //Inicializar valores
-    public static List<Items> createCatalogue(){
-        List<Items> Catalogue = new ArrayList<>();
-
-        Catalogue.add(new Items(1,"Comida", "Yogurt", 10.0, 10, "2025-06-30", "2025-06-30",""));
-        Catalogue.add(new Items(2,"Comida", "Mermelada", 80.0, 5, "2025-8-10", "2025-06-5", "2025-06-10"));
-        Catalogue.add(new Items(3,"Comida", "Rajas", 50.0, 10, "2025-8-5", "2025-06-10", ""));
-        Catalogue.add(new Items(4,"Comida", "Manzana", 10.0, 30, "2025-06-25", "2025-06-10", ""));
-        Catalogue.add(new Items(5,"Ropa", "Pantalon", 500.0, 3, "", "2025-05-15", "2025-06-10"));
-        Catalogue.add(new Items(6,"Ropa", "Playera", 150.0, 10,"","2025-05-15", "2025-06-08"));
-        Catalogue.add(new Items(7,"Herramientas", "Martillo", 300.0, 10, "", "2024-12-15", "2025-03-13"));
-        Catalogue.add(new Items(8,"Papeleria", "Pluma gel", 75.0, 0, "", "2025-05-15", "2025-06-10"));
-
-        return Catalogue;
-    }
 }

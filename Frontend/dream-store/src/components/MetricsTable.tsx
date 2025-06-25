@@ -1,7 +1,9 @@
 import { useCatalogue } from "../hooks/useCatalogue"
+import { getOverallMetrics } from "../context/CatalogueContext";
 
 const MetricsTable: React.FC = () => {
     const { metrics } = useCatalogue();
+    const overrall = getOverallMetrics(metrics);
 
     return(<>
             <div className="p-4 bg-white rounded-lg shadow-lg">
@@ -23,6 +25,12 @@ const MetricsTable: React.FC = () => {
                                     <td>{metric.averageValue.toFixed(2)}</td>
                                 </tr>
                         ))}
+                        <tr className="font-bold">
+                            <td>{overrall.categoryMetrics}</td>
+                            <td>{overrall.totalStock}</td>
+                            <td>{overrall.totalValue.toFixed(2)}</td>
+                            <td>{overrall.averageValue.toFixed(2)}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

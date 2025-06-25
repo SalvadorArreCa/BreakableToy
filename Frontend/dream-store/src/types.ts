@@ -4,7 +4,7 @@ export interface Items {
     name: String;
     price: number;
     stock: number;
-    expirationDate: String;
+    expirationDate: string;
     creationDate: String;
     updateDate: String;
 }

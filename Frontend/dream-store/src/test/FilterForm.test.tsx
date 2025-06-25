@@ -102,6 +102,7 @@ test("renders ProductsTable without crashing", () => {
     addModal: false,
     modalMode: false,
     productData: defaultValue,
+    refreshCatalgue: jest.fn(),
     setAddModal: jest.fn(),
     setModalMode: jest.fn(),
     setProductData: jest.fn(),

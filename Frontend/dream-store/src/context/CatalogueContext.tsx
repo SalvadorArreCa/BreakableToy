@@ -141,3 +141,37 @@ export const deleteProduct = async (id: number, refreshCatalgue: () => void) => 
     await deleteProductService(id);
     await refreshCatalgue();
 }
+
+export const getOverallMetrics = (metrics: Metrics[]): Metrics => {
+    const overrall: Metrics = {
+        categoryMetrics: "Overall", 
+        totalStock: 0,
+        totalValue: 0.0,
+        averageValue: 0.0}
+
+    for(let ina = 0; ina < metrics.length; ina++){
+        overrall.totalStock += metrics[ina].totalStock;
+        overrall.totalValue += metrics[ina].totalValue;
+        overrall.averageValue += metrics[ina].averageValue;
+    }
+
+    return overrall;
+}
+
+export const getDayDifference = (date_1: string): string => {
+    if(date_1 === "" || date_1 === null){
+        return "";
+    }
+    
+    const dateDate_1 = new Date(date_1);
+    const today: Date = new Date();
+
+    let timeDifference = Math.abs(dateDate_1.getTime() - today.getTime());
+    timeDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+    if(timeDifference > 10) return "";
+    else if(timeDifference <= 10 && timeDifference >= 5) return 'bg-orange-200';
+    else if(timeDifference < 5) return 'bg-red-300';
+
+    return '';
+}
