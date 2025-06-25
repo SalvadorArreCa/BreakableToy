@@ -15,18 +15,18 @@ const ProductsTable: React.FC = () => {
     return (
         <>
         {/* TABLA DE PRODUCTOS */}
-            <table className='w-full table-fix bg-white break-words shadow-lg text-center'>
+            <table className='w-full table-fix bg-neutral-100 break-words shadow-lg text-center'>
                 <thead>
-                    <tr className='bg-primary border-1'>
-                        <th className="px-6 py-3 border-1"></th>
-                        <th className="px-6 py-3 border-1">Id {<button className="btn btn-outline" onClick={() => invertOrder(1)}> + </button>}</th>
-                        <th className="px-6 py-3 border-1">Categoria {<button className="btn btn-outline" onClick={() => invertOrder(2)}> + </button>}</th>
-                        <th className="px-6 py-3 border-1">Nombre {<button className="btn btn-outline" onClick={() => invertOrder(3)}> + </button>}</th>
-                        <th className="px-6 py-3 border-1">Precio {<button className="btn btn-outline" onClick={() => invertOrder(4)}> + </button>}</th>
-                        <th className="px-6 py-3 border-1">Stock {<button className="btn btn-outline" onClick={() => invertOrder(5)}> + </button>}</th>
-                        <th className="px-6 py-3 border-1">Fecha de Caducidad {<button className="btn btn-outline" onClick={() => invertOrder(6)}> + </button>}</th>
-                        <th className="px-6 py-3 border-1"></th>
-                        <th className="px-6 py-3 border-1"></th>
+                    <tr className='bg-neutral-400'>
+                        <th className="px-6 py-3"></th>
+                        <th className="px-6 py-3">Id {<button className="btn btn-outline" onClick={() => invertOrder(1)}> + </button>}</th>
+                        <th className="px-6 py-3">Categoria {<button className="btn btn-outline" onClick={() => invertOrder(2)}> + </button>}</th>
+                        <th className="px-6 py-3">Nombre {<button className="btn btn-outline" onClick={() => invertOrder(3)}> + </button>}</th>
+                        <th className="px-6 py-3">Precio {<button className="btn btn-outline" onClick={() => invertOrder(4)}> + </button>}</th>
+                        <th className="px-6 py-3">Stock {<button className="btn btn-outline" onClick={() => invertOrder(5)}> + </button>}</th>
+                        <th className="px-6 py-3">Fecha de Caducidad {<button className="btn btn-outline" onClick={() => invertOrder(6)}> + </button>}</th>
+                        <th className="px-6 py-3"></th>
+                        <th className="px-6 py-3"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,7 +40,7 @@ const ProductsTable: React.FC = () => {
                             <td className='px-6 border-1'>{item?.name}</td>
                             <td className='px-6 border-1'>${item?.price.toFixed(2)}</td>
                             <td className={`
-                                ${item?.stock < 5 ? 'bg-red-500' : item?.stock <= 10 ? 'bg-orange-500' : ''}
+                                ${item?.stock < 5 ? 'bg-red-400' : item?.stock <= 10 ? 'bg-orange-400' : ''}
                                 px-6 border-1
                             `}>{item?.stock}</td>
                             <td className='px-6 border-1'>{item?.expirationDate}</td>

@@ -43,10 +43,10 @@ const FilterForm: React.FC = () => {
     }
 
     return(<>
-        <div className="flex flex-row bg-neutral-400 rounded-xl shadow-xl p-6 gap-6">
+        <div className="flex flex-row bg-neutral-100 rounded-xl shadow-xl p-6 gap-6">
             <div className="flex flex-col gap-4 basis-1/2">
                 <div className="flex items-center gap-4">
-                <label className="w-28 text-white">Name</label>
+                <label className="w-28">Name</label>
                 <input
                     type="text"
                     className="input bg-white w-full rounded-md shadow-sm px-3 py-2"
@@ -57,7 +57,7 @@ const FilterForm: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <label className="w-28 text-white">Category</label>
+                    <label className="w-28">Category</label>
                     <select
                         aria-label="Category select"
                         className="select bg-white w-full rounded-md shadow-sm px-3 py-2"
@@ -80,7 +80,7 @@ const FilterForm: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <label className="w-28 text-white">Availability</label>
+                    <label className="w-28">Availability</label>
                     <select
                         aria-label="Stock select"
                         className="select bg-white w-full rounded-md shadow-sm px-3 py-2"

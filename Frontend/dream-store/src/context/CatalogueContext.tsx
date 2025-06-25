@@ -169,9 +169,9 @@ export const getDayDifference = (date_1: string): string => {
     let timeDifference = Math.abs(dateDate_1.getTime() - today.getTime());
     timeDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 
-    if(timeDifference > 10) return "";
-    else if(timeDifference <= 10 && timeDifference >= 5) return 'bg-orange-200';
-    else if(timeDifference < 5) return 'bg-red-300';
+    if(timeDifference > 14) return "bg-green-200";
+    else if(timeDifference <= 14 && timeDifference >= 7) return 'bg-orange-200';
+    else if(timeDifference < 7) return 'bg-red-300';
 
     return '';
 }
