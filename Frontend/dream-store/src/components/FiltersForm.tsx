@@ -121,7 +121,7 @@ const FilterForm: React.FC = () => {
                 setModalMode(true);
                 const modal = document.getElementById('productModal') as HTMLDialogElement;
                 if (modal) modal.showModal();
-            }}>Agregar Producto</button>
+            }}>Add Product</button>
             <button className="btn btn-primary m-4" onClick={() => {resetFilters()}}>Reset Filters</button>
         </div>
     </>);

@@ -21,15 +21,15 @@ const MetricsTable: React.FC = () => {
                                 <tr key={index}>
                                     <td>{metric.categoryMetrics}</td>
                                     <td>{metric.totalStock}</td>
-                                    <td>{metric.totalValue.toFixed(2)}</td>
-                                    <td>{metric.averageValue.toFixed(2)}</td>
+                                    <td>${metric.totalValue.toFixed(2)}</td>
+                                    <td>${metric.averageValue.toFixed(2)}</td>
                                 </tr>
                         ))}
                         <tr className="font-bold">
                             <td>{overrall.categoryMetrics}</td>
                             <td>{overrall.totalStock}</td>
-                            <td>{overrall.totalValue.toFixed(2)}</td>
-                            <td>{overrall.averageValue.toFixed(2)}</td>
+                            <td>${overrall.totalValue.toFixed(2)}</td>
+                            <td>${overrall.averageValue.toFixed(2)}</td>
                         </tr>
                     </tbody>
                 </table>
