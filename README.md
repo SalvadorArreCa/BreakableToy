@@ -19,7 +19,7 @@ The application features the following functional requirements:
 | FR-6  | Sort Products       | The application must allow the user to sort the products by the fields shown on the screen.    |
 | FR-7  | Manage Stock        | The application must allow the user to mark a product as out-of-stock, and re-stock when necessary. |
 | FR-8  | Paginate            | The application must display only 10 products per page.                                        |
-| FR-9  | Show Metrics        | The application must display inventory metrics per category: total stock, total value, etc.    |
+| FR-9  | Show Metrics        | The application must display inventory metrics per category: total stock, total value and average value. |
 
 ---
 
