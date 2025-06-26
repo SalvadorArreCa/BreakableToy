@@ -17,7 +17,7 @@ The application features the following functional requirements:
 | FR-4  | Delete Product      | The application must allow the user to delete a product from the catalogue.                    |
 | FR-5  | Filter Products     | The application must allow the user to filter a product by name, category, and stock status.   |
 | FR-6  | Sort Products       | The application must allow the user to sort the products by the fields shown on the screen.    |
-| FR-7  | Mark as Out-of-Stock| The application must allow the user to mark a product as out-of-stock.                         |
+| FR-7  | Manage Stock        | The application must allow the user to mark a product as out-of-stock, and re-stock when necessary. |
 | FR-8  | Paginate            | The application must display only 10 products per page.                                        |
 | FR-9  | Show Metrics        | The application must display inventory metrics per category: total stock, total value, etc.    |
 
