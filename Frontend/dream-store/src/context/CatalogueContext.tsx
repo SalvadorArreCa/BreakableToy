@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import type { Items } from "../types"
 import type { Metrics } from "../types"
 import { addProductService, deleteProductService, editProductService, getCatalogue, getMetrics } from "../services/CatalogueManagement";
-import { setProductOutOfStock } from "../services/CatalogueManagement";
+import { setProductOutOfStock, setProductReStock } from "../services/CatalogueManagement";
 
 interface CatalogueContextProps {
     items: Items[];
@@ -114,15 +114,19 @@ export const setOutOfStock = async (id: number, refreshCatalgue: () => void) => 
     await refreshCatalgue();
 }
 
+export const setReStock = async (id: number, refreshCatalgue: () => void) => {
+    await setProductReStock(id);
+    await refreshCatalgue();
+}
+
 export const addProduct = async (
     productData: Items, 
-    catalogueSize: number, 
     setAddModal: (addModal: boolean) => void,
     setNewCategory: (newCategory: boolean) => void,
     setProductData: (productData: Items) => void,
     refreshCatalgue: () => void
     ) => {
-    await addProductService(productData, catalogueSize, setAddModal, setNewCategory, setProductData);
+    await addProductService(productData, setAddModal, setNewCategory, setProductData);
     await refreshCatalgue();
 }
 

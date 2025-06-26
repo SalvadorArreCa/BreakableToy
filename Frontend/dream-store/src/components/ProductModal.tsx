@@ -7,7 +7,6 @@ const ProductModal: React.FC = () => {
     productData,
     metrics,
     modalMode,
-    catalogueSize,
     setAddModal,
     setProductData,
     addModal,
@@ -35,7 +34,7 @@ const ProductModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-neutral-800 text-white w-full max-w-xl mx-4 p-6 rounded-lg shadow-lg relative">
+      <div className="bg-neutral-200 text-neutral-800 w-full max-w-xl mx-4 p-6 rounded-lg shadow-lg relative">
         <h2 className="text-2xl font-semibold mb-4 text-center">
           {modalMode ? "Add Product" : "Edit Product"}
         </h2>
@@ -50,7 +49,7 @@ const ProductModal: React.FC = () => {
             name="name"
             value={String(productData.name)}
             onChange={handleChange}
-            className="w-full p-2 rounded bg-neutral-700 border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full p-2 rounded bg-white border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
@@ -64,13 +63,13 @@ const ProductModal: React.FC = () => {
                 name="category"
                 value={String(productData.category)}
                 onChange={handleChange}
-                className="flex-grow p-2 rounded bg-neutral-700 border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="flex-grow p-2 rounded bg-white border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             ) : (
               <select
                 name="category"
                 onChange={handleSelectChange}
-                className="flex-grow p-2 rounded bg-neutral-700 border border-neutral-600 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="flex-grow p-2 rounded bg-white border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
               >
                 <option value="">Select a category</option>
                 {metrics.map((category, index) => (
@@ -83,7 +82,7 @@ const ProductModal: React.FC = () => {
             <button
               type="button"
               onClick={() => setNewCategory(!newCategory)}
-              className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+              className="btn btn-primary px-3 py-1"
             >
               +
             </button>
@@ -100,7 +99,7 @@ const ProductModal: React.FC = () => {
             name="price"
             value={productData.price}
             onChange={handleChange}
-            className="w-full p-2 rounded bg-neutral-700 border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full p-2 rounded bg-white border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
@@ -114,7 +113,7 @@ const ProductModal: React.FC = () => {
             name="stock"
             value={Number(productData.stock)}
             onChange={handleChange}
-            className="w-full p-2 rounded bg-neutral-700 border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full p-2 rounded bg-white border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
@@ -128,7 +127,7 @@ const ProductModal: React.FC = () => {
             name="expirationDate"
             value={String(productData.expirationDate)}
             onChange={handleChange}
-            className="w-full p-2 rounded bg-neutral-700 border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full p-2 rounded bg-white border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
@@ -136,19 +135,19 @@ const ProductModal: React.FC = () => {
           <button
             onClick={() => {
               if (modalMode) {
-                addProduct(productData, catalogueSize, setAddModal, setNewCategory, setProductData, refreshCatalgue);
+                addProduct(productData, setAddModal, setNewCategory, setProductData, refreshCatalgue);
               } else {
                 editProduct(productData, setAddModal, setNewCategory, setProductData, refreshCatalgue);
               }
               closeModal();
             }}
-            className="btn btn-primary px-4 py-2 hover:bg-green-700 rounded text-white"
+            className="btn btn-primary px-4 py-2"
           >
             {modalMode ? "Add" : "Edit"}
           </button>
           <button
             onClick={closeModal}
-            className="btn btn-danger px-4 py-2 hover:bg-gray-600 rounded text-white"
+            className="btn btn-danger px-4 py-2"
           >
             Cancel
           </button>

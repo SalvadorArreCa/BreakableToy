@@ -30,7 +30,7 @@ public class RestAPI {
 
     @GetMapping(path = "/products")
     @CrossOrigin(origins = "http://localhost:8080")
-    public List<Items> getProducts( @RequestParam Integer page, 
+    public ResponseEntity<Map<String, Object>> getProducts( @RequestParam Integer page, 
                                     @RequestParam(required = false) Integer sort,
                                     @RequestParam(required = false) boolean invert,
                                     @RequestParam(required = false) List<String> category,
@@ -48,31 +48,31 @@ public class RestAPI {
             if(range[1] > catalogue.size()) range[1] = catalogue.size();
 
             List<Items> products = catalogue.subList(range[0], range[1]);
-
-            return products;
+            Map<String, Object> response = new HashMap<>();
+            response.put("products", products);
+            response.put("catalogueSize", catalogue.size());
+            return ResponseEntity.ok(response);
         } catch (Exception ina) {
             ina.printStackTrace();
-            return null;
+            return ResponseEntity.status(501).body(null);
         }
-    }
-
-    @GetMapping(path = "/catalogueSize")
-    @CrossOrigin(origins = "http://localhost:8080")
-    public ResponseEntity<Map<String,Integer>> catalogueSize(){
-        Map<String, Integer> response = new HashMap<>();
-        response.put("data", CatMan.Catalogue().size());
-        return ResponseEntity.ok(response);    
     }
 
     @PostMapping(path = "/products")
     @CrossOrigin(origins = "http://localhost:8080")
     public ResponseEntity<Map<String, String>> addProduct(@RequestBody Items product){
-        List<Items> Catalogue = CatMan.Catalogue();
+        List<Items> catalogue = CatMan.Catalogue();
         Map<String, String> response = new HashMap<>();
         try {
             if(product != null){
-                Catalogue.add(product);
-                CatMan.writeCatalogue(Catalogue);
+                long nextId = catalogue.stream()
+                                  .mapToLong(Items::getId)
+                                  .max()
+                                  .orElse(0) + 1;
+
+                product.setId(nextId);
+                catalogue.add(product);
+                CatMan.writeCatalogue(catalogue);
                 response.put("message", "Producto Agregado Correctamente >w<");
                 return ResponseEntity.ok(response);
             }
@@ -161,6 +161,28 @@ public class RestAPI {
             }
             CatMan.writeCatalogue(catalogue);
             response.put("message","El Stock se termino para el producto");
+            return ResponseEntity.ok(response);
+        } catch (Exception ina) {
+            ina.printStackTrace();
+            response.put("message","No se pudo editar el producto");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(path = "/products/{id}/re-stock")
+    @CrossOrigin(origins = "http://localhost:8080")
+    public ResponseEntity<Map<String,String>> reStock(@PathVariable int id){
+        List<Items> catalogue = CatMan.Catalogue();
+        Map<String, String> response = new HashMap<>();
+
+        try {
+            for(Items item : catalogue){
+                if(item.getId() == id) {
+                    item.setStock(10);
+                }
+            }
+            CatMan.writeCatalogue(catalogue);
+            response.put("message","El se reestablecio el stock del producto");
             return ResponseEntity.ok(response);
         } catch (Exception ina) {
             ina.printStackTrace();

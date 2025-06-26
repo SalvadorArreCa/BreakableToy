@@ -1,5 +1,5 @@
 import { useCatalogue  } from '../hooks/useCatalogue'
-import { setOutOfStock, deleteProduct, getDayDifference } from '../context/CatalogueContext';
+import { setOutOfStock, setReStock, deleteProduct, getDayDifference } from '../context/CatalogueContext';
 
 const ProductsTable: React.FC = () => {
 
@@ -33,7 +33,11 @@ const ProductsTable: React.FC = () => {
                     {items.map((item) => (
                         <tr className={`${getDayDifference(item.expirationDate)}`} key={item.id}>
                             <td className="text-center py-4 px-6 border-1">
-                                <button className="btn btn-outline" onClick={() => setOutOfStock(item?.id,refreshCatalgue)}> X </button>
+                                {item.stock === 0 ? 
+                                    <button className="btn btn-outline" onClick={() => setReStock(item?.id,refreshCatalgue)}> + </button>
+                                :
+                                    <button className="btn btn-outline" onClick={() => setOutOfStock(item?.id,refreshCatalgue)}> X </button>
+                                }
                             </td>
                             <td className='px-6 border-1'>{item?.id}</td>
                             <td className='px-6 border-1'>{item?.category}</td>
