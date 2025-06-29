@@ -27,7 +27,7 @@ The application features the following functional requirements:
 
 ### Frontend
 
-You need the following installed on your computer:
+You need the following programs previously installed in your computer:
 - Node.js v22+
 - npm
 
@@ -66,3 +66,4 @@ If you want to run the test you use the next command
 ```bash
 mvn test
 ```
+---
