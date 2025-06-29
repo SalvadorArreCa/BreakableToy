@@ -32,11 +32,11 @@ const ProductsTable: React.FC = () => {
                 <tbody>
                     {items.map((item) => (
                         <tr className={`${getDayDifference(item.expirationDate)}`} key={item.id}>
-                            <td className="text-center py-4 px-6 border-1">
+                            <td className="text-center py-1 px-2 border-1">
                                 {item.stock === 0 ? 
-                                    <button className="btn btn-outline" onClick={() => setReStock(item?.id,refreshCatalgue)}> + </button>
+                                    <button className="btn btn-warning w-24 h-16" onClick={() => setReStock(item?.id,refreshCatalgue)}> ReStock </button>
                                 :
-                                    <button className="btn btn-outline" onClick={() => setOutOfStock(item?.id,refreshCatalgue)}> X </button>
+                                    <button className="btn btn-success w-24 h-16" onClick={() => setOutOfStock(item?.id,refreshCatalgue)}> Set Out-of-stock </button>
                                 }
                             </td>
                             <td className='px-6 border-1'>{item?.id}</td>
