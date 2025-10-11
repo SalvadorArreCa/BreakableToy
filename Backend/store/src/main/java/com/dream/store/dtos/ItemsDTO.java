@@ -1,8 +1,8 @@
-package com.dream.store.entity;
+package com.dream.store.dtos;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class Items {
+public class ItemsDTO {
     private long id;
     private String category;
     private String name;
@@ -13,7 +13,7 @@ public class Items {
     private String update_date;
 
     //Constructor
-    public Items(long id, String category, String name, double price, int stock, String expiration_date, String creation_date, String update_date){
+    public ItemsDTO(long id, String category, String name, double price, int stock, String expiration_date, String creation_date, String update_date){
         this.id = id;
         this.category = category;
         this.name = name;

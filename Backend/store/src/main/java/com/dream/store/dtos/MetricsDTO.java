@@ -1,15 +1,15 @@
-package com.dream.store.entity;
+package com.dream.store.dtos;
 
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class Metrics {
+public class MetricsDTO {
     private String category;
     private int totalStock;
     private double totalValue;
     private double averageValue;
 
-    public Metrics(String category, int totalStock, double totalValue, double averageValue){
+    public MetricsDTO(String category, int totalStock, double totalValue, double averageValue){
         this.category = category;
         this.totalStock = totalStock;
         this.totalValue = totalValue;

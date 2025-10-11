@@ -10,8 +10,6 @@ const ProductsTable: React.FC = () => {
         else setInvert(true);     
     }
 
-    //console.log("Items length:", items.length, "Filtered by:", filterName, filterCategory, filterStock);
-
     return (
         <>
         {/* TABLA DE PRODUCTOS */}

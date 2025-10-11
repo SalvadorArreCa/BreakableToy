@@ -2,8 +2,8 @@ package com.dream.store;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dream.store.entity.Items;
-import com.dream.store.entity.Metrics;
+import com.dream.store.dtos.ItemsDTO;
+import com.dream.store.dtos.MetricsDTO;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -33,7 +33,7 @@ public class CatalogueManagerTest {
     @Test
     void testSortingById(){
         CatalogueManager CatMan = new CatalogueManager();
-        List<Items> sampleItems = new ArrayList<>(CatMan.createCatalogue());
+        List<ItemsDTO> sampleItems = new ArrayList<>(CatMan.createCatalogue());
         CatMan.sorting(sampleItems, 1);
         assertEquals(1, sampleItems.get(0).getId());
         assertEquals(2, sampleItems.get(1).getId());
@@ -48,9 +48,9 @@ public class CatalogueManagerTest {
     @Test
     void testSortingByCategory(){
         CatalogueManager CatMan = new CatalogueManager();
-        List<Items> sampleItems = new ArrayList<>(CatMan.createCatalogue());
+        List<ItemsDTO> sampleItems = new ArrayList<>(CatMan.createCatalogue());
         CatMan.sorting(sampleItems, 2);
-        for(Items items : sampleItems){
+        for(ItemsDTO items : sampleItems){
             System.out.println(items);
         }
         assertEquals("Comida", sampleItems.get(0).getCategory());
@@ -66,7 +66,7 @@ public class CatalogueManagerTest {
     @Test
     void testSortingByName(){
         CatalogueManager CatMan = new CatalogueManager();
-        List<Items> sampleItems = new ArrayList<>(CatMan.createCatalogue());
+        List<ItemsDTO> sampleItems = new ArrayList<>(CatMan.createCatalogue());
         CatMan.sorting(sampleItems, 3);
         assertEquals("Manzana", sampleItems.get(0).getName());
         assertEquals("Martillo", sampleItems.get(1).getName());
@@ -81,7 +81,7 @@ public class CatalogueManagerTest {
     @Test
     void testSortingByPrice(){
         CatalogueManager CatMan = new CatalogueManager();
-        List<Items> sampleItems = new ArrayList<>(CatMan.createCatalogue());
+        List<ItemsDTO> sampleItems = new ArrayList<>(CatMan.createCatalogue());
         CatMan.sorting(sampleItems, 4);
         assertEquals(10.0, sampleItems.get(0).getPrice());
         assertEquals(10.0, sampleItems.get(1).getPrice());
@@ -96,7 +96,7 @@ public class CatalogueManagerTest {
     @Test
     void testSortingByStock(){
         CatalogueManager CatMan = new CatalogueManager();
-        List<Items> sampleItems = new ArrayList<>(CatMan.createCatalogue());
+        List<ItemsDTO> sampleItems = new ArrayList<>(CatMan.createCatalogue());
         CatMan.sorting(sampleItems, 5);
         assertEquals(0, sampleItems.get(0).getStock());
         assertEquals(3, sampleItems.get(1).getStock());
@@ -111,8 +111,8 @@ public class CatalogueManagerTest {
     @Test
     void testFilterByName(){
         CatalogueManager CatMan = new CatalogueManager();
-        List<Items> sampleItems = new ArrayList<>(CatMan.createCatalogue());
-        List<Items> filtered = new ArrayList<>();
+        List<ItemsDTO> sampleItems = new ArrayList<>(CatMan.createCatalogue());
+        List<ItemsDTO> filtered = new ArrayList<>();
         filtered = CatMan.filteringName(sampleItems, "MAN");
 
         assertEquals("Manzana", filtered.get(0).getName());
@@ -121,8 +121,8 @@ public class CatalogueManagerTest {
     @Test
     void testFilterByCategory(){
         CatalogueManager CatMan = new CatalogueManager();
-        List<Items> sampleItems = new ArrayList<>(CatMan.createCatalogue());
-        List<Items> filtered = new ArrayList<>();
+        List<ItemsDTO> sampleItems = new ArrayList<>(CatMan.createCatalogue());
+        List<ItemsDTO> filtered = new ArrayList<>();
         List<String> categories = new ArrayList<>();
         categories.add("Herramientas");
         filtered = CatMan.filteringCategory(sampleItems, categories);
@@ -133,8 +133,8 @@ public class CatalogueManagerTest {
     @Test
     void testFilterByStock(){
         CatalogueManager CatMan = new CatalogueManager();
-        List<Items> sampleItems = new ArrayList<>(CatMan.createCatalogue());
-        List<Items> filtered = new ArrayList<>();
+        List<ItemsDTO> sampleItems = new ArrayList<>(CatMan.createCatalogue());
+        List<ItemsDTO> filtered = new ArrayList<>();
         filtered = CatMan.filteringStock(sampleItems, 0);
 
         assertEquals("Pluma gel", filtered.get(0).getName());
@@ -143,8 +143,8 @@ public class CatalogueManagerTest {
     @Test
     void testMetrics(){
         CatalogueManager CatMan = new CatalogueManager();
-        List<Items> sampleItems = new ArrayList<>(CatMan.createCatalogue());
-        Metrics testMetrics = new Metrics("Ropa",13, 650.0, 325.0);
+        List<ItemsDTO> sampleItems = new ArrayList<>(CatMan.createCatalogue());
+        MetricsDTO testMetrics = new MetricsDTO("Ropa",13, 650.0, 325.0);
 
         assertEquals(testMetrics.getCategoryMetrics(), CatMan.metrics(sampleItems, "Ropa").getCategoryMetrics());
         assertEquals(testMetrics.getTotalStock(), CatMan.metrics(sampleItems, "Ropa").getTotalStock());

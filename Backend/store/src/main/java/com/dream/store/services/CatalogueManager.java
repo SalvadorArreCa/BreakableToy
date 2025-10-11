@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import com.dream.store.entity.Items;
-import com.dream.store.entity.Metrics;
+import com.dream.store.dtos.ItemsDTO;
+import com.dream.store.dtos.MetricsDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CatalogueManager {
-    public List<Items> Catalogue() {
+    public List<ItemsDTO> Catalogue() {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            return mapper.readValue(new File("src/main/resources/catalogo.json"), new TypeReference<List<Items>>() {});
+            return mapper.readValue(new File("src/main/resources/catalogo.json"), new TypeReference<List<ItemsDTO>>() {});
         } catch (Exception ina) {
             ina.printStackTrace();
             return null;
@@ -30,7 +30,7 @@ public class CatalogueManager {
         return range;
     }
 
-    public void sorting(List<Items> catalogue, int value){
+    public void sorting(List<ItemsDTO> catalogue, int value){
         switch(value){
             //Sort by Id
             case 1: 
@@ -59,10 +59,10 @@ public class CatalogueManager {
         }
     }
 
-    public List<Items> filteringCategory(List<Items> catalogue, List<String> filters){
-        List<Items> filteredCaralogue = new ArrayList<>();
+    public List<ItemsDTO> filteringCategory(List<ItemsDTO> catalogue, List<String> filters){
+        List<ItemsDTO> filteredCaralogue = new ArrayList<>();
         for(String filter : filters){
-            for(Items item : catalogue){
+            for(ItemsDTO item : catalogue){
                 if(filter.equals(item.getCategory())){
                     filteredCaralogue.add(item);
                 }
@@ -71,9 +71,9 @@ public class CatalogueManager {
         return filteredCaralogue;
     }
 
-    public List<Items> filteringName(List<Items> catalogue, String name){
-        List<Items> filteredCatalogue = new ArrayList<>();
-        for(Items item : catalogue){
+    public List<ItemsDTO> filteringName(List<ItemsDTO> catalogue, String name){
+        List<ItemsDTO> filteredCatalogue = new ArrayList<>();
+        for(ItemsDTO item : catalogue){
             name = name.toLowerCase();
             if((item.getName().toLowerCase()).contains(name)){
                 filteredCatalogue.add(item);
@@ -82,9 +82,9 @@ public class CatalogueManager {
         return filteredCatalogue;
     }
     
-    public List<Items> filteringStock(List<Items> catalogue, int stock){
-        List<Items> filteredCatalogue = new ArrayList<>();
-        for(Items item : catalogue){
+    public List<ItemsDTO> filteringStock(List<ItemsDTO> catalogue, int stock){
+        List<ItemsDTO> filteredCatalogue = new ArrayList<>();
+        for(ItemsDTO item : catalogue){
             if(stock == 0 && item.getStock() == 0){
                 filteredCatalogue.add(item); 
             }
@@ -95,11 +95,11 @@ public class CatalogueManager {
         return filteredCatalogue.isEmpty() ? new ArrayList<>(catalogue) : filteredCatalogue;
     }
 
-    public Metrics metrics(List<Items> catelogue, String category){
+    public MetricsDTO metrics(List<ItemsDTO> catelogue, String category){
         int totalStock = 0;
         double totalValue = 0;
         double averageValue = 0;
-        for(Items item : catelogue){
+        for(ItemsDTO item : catelogue){
             if(item.getCategory().equals(category)) {
                 totalStock += item.getStock();
                 totalValue += item.getPrice();
@@ -107,10 +107,10 @@ public class CatalogueManager {
             }
         }
         averageValue = totalValue / averageValue;
-        return new Metrics(category,totalStock,totalValue, averageValue);
+        return new MetricsDTO(category,totalStock,totalValue, averageValue);
     }
 
-    public void writeCatalogue(List<Items> Catalogue){
+    public void writeCatalogue(List<ItemsDTO> Catalogue){
         ObjectMapper mapper = new ObjectMapper();
         try {
             mapper.writeValue(new File("src/main/resources/catalogo.json"), Catalogue);
@@ -120,17 +120,17 @@ public class CatalogueManager {
     }
 
     //Inicializar valores
-    public List<Items> createCatalogue(){
-        List<Items> Catalogue = new ArrayList<>();
+    public List<ItemsDTO> createCatalogue(){
+        List<ItemsDTO> Catalogue = new ArrayList<>();
 
-        Catalogue.add(new Items(1,"Comida", "Yogurt", 10.0, 10, "2025-06-30", "2025-06-30",""));
-        Catalogue.add(new Items(2,"Comida", "Mermelada", 80.0, 5, "2025-8-10", "2025-06-5", "2025-06-10"));
-        Catalogue.add(new Items(3,"Comida", "Rajas", 50.0, 10, "2025-8-5", "2025-06-10", ""));
-        Catalogue.add(new Items(4,"Comida", "Manzana", 10.0, 30, "2025-06-25", "2025-06-10", ""));
-        Catalogue.add(new Items(5,"Ropa", "Pantalon", 500.0, 3, "", "2025-05-15", "2025-06-10"));
-        Catalogue.add(new Items(6,"Ropa", "Playera", 150.0, 10,"","2025-05-15", "2025-06-08"));
-        Catalogue.add(new Items(7,"Herramientas", "Martillo", 300.0, 10, "", "2024-12-15", "2025-03-13"));
-        Catalogue.add(new Items(8,"Papeleria", "Pluma gel", 75.0, 0, "", "2025-05-15", "2025-06-10"));
+        Catalogue.add(new ItemsDTO(1,"Comida", "Yogurt", 10.0, 10, "2025-06-30", "2025-06-30",""));
+        Catalogue.add(new ItemsDTO(2,"Comida", "Mermelada", 80.0, 5, "2025-8-10", "2025-06-5", "2025-06-10"));
+        Catalogue.add(new ItemsDTO(3,"Comida", "Rajas", 50.0, 10, "2025-8-5", "2025-06-10", ""));
+        Catalogue.add(new ItemsDTO(4,"Comida", "Manzana", 10.0, 30, "2025-06-25", "2025-06-10", ""));
+        Catalogue.add(new ItemsDTO(5,"Ropa", "Pantalon", 500.0, 3, "", "2025-05-15", "2025-06-10"));
+        Catalogue.add(new ItemsDTO(6,"Ropa", "Playera", 150.0, 10,"","2025-05-15", "2025-06-08"));
+        Catalogue.add(new ItemsDTO(7,"Herramientas", "Martillo", 300.0, 10, "", "2024-12-15", "2025-03-13"));
+        Catalogue.add(new ItemsDTO(8,"Papeleria", "Pluma gel", 75.0, 0, "", "2025-05-15", "2025-06-10"));
 
         return Catalogue;
     }

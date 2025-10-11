@@ -40,6 +40,7 @@ export const getCatalogue = async (
       );
 
     const catalogueData = await catalogue.json();
+    console.log("Catalogue Size: ", catalogueData.catalogueSize);
 
     return { items: catalogueData.products, catalogueSize: catalogueData.catalogueSize };
   } catch (error) {
@@ -50,7 +51,7 @@ export const getCatalogue = async (
 
 export const getMetrics = async (): Promise<Metrics[] | null> => {
   try {
-    const metrics = await fetch("http://localhost:9090/categories");
+    const metrics = await fetch("http://localhost:9090/products/categories");
     if (!metrics.ok)
       throw new Error(`Error fetching the categories: ${metrics.status}`);
     const metricsData = await metrics.json();
@@ -180,7 +181,7 @@ export const editProductService = async (
 
 export const deleteProductService = async (id: number) => {
   try {
-    const response = await fetch(`http://localhost:9090/delete/${id}`, {
+    const response = await fetch(`http://localhost:9090/products/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
