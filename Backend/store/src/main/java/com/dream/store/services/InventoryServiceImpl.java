@@ -5,6 +5,7 @@ import com.dream.store.dtos.MetricsDTO;
 import com.dream.store.dtos.ProductsPageDTO;
 import com.dream.store.exceptions.ItemNotFoundException;
 import com.dream.store.repositories.ItemsRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,10 +18,19 @@ public class InventoryServiceImpl implements InventoryService {
 
     private final ItemsRepository repository;
     private static final int PAGE_SIZE = 10;
+    private final List<ItemsDTO> cache;
 
     public InventoryServiceImpl(ItemsRepository repository){
         this.repository = repository;
+        this.cache = new ArrayList<>();
     }
+
+    @PostConstruct
+    private void loadCache() {
+        this.cache.clear();
+        this.cache.addAll(repository.findAll());
+    }
+
     @Override
     public ProductsPageDTO getProducts(int page,
                                 Integer sort,
@@ -29,7 +39,7 @@ public class InventoryServiceImpl implements InventoryService {
                                 String name,
                                 Integer stock
     ){
-        List<ItemsDTO> catalogue = repository.findAll();
+        List<ItemsDTO> catalogue = new ArrayList<>(cache);
 
         if (category != null && !category.isEmpty()) {
             Set<String> catSet = new HashSet<>(category);
@@ -77,34 +87,28 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public synchronized ItemsDTO addProduct(ItemsDTO product) {
-        List<ItemsDTO> catalogue = repository.findAll();
-        long nextId = catalogue.stream().mapToLong(ItemsDTO::getId).max().orElse(0) + 1;
+        long nextId = cache.stream().mapToLong(ItemsDTO::getId).max().orElse(0) + 1;
         product.setId(nextId);
 
         if (product.getCreationDate() == null || product.getCreationDate().isEmpty()) {
             product.setCreationDate(LocalDateTime.now().toString());
         }
 
-        catalogue.add(product);
-        repository.saveAll(catalogue);
+        cache.add(product);
+        repository.saveAll(cache);
         return product;
     }
 
     @Override
     public synchronized void deleteProduct(long id) {
-        List<ItemsDTO> catalogue = repository.findAll();
-        boolean removed = catalogue.removeIf(item -> item.getId() == id);
+        boolean removed = cache.removeIf(item -> item.getId() == id);
         if (!removed) throw new ItemNotFoundException(id);
-        repository.saveAll(catalogue);
+        repository.saveAll(cache);
     }
 
     @Override
     public synchronized ItemsDTO updateProduct(long id, ItemsDTO editedItem) {
-        List<ItemsDTO> catalogue = repository.findAll();
-        Optional<ItemsDTO> found = catalogue.stream().filter(item -> item.getId() == id).findFirst();
-        if (found.isEmpty()) throw new ItemNotFoundException(id);
-
-        ItemsDTO item = found.get();
+        ItemsDTO item = findIdOrThrow(id);
 
         item.setCategory(editedItem.getCategory());
         item.setName(editedItem.getName());
@@ -114,7 +118,7 @@ public class InventoryServiceImpl implements InventoryService {
         item.setUpdateDate(editedItem.getUpdateDate() == null || editedItem.getUpdateDate().isEmpty()
                         ? LocalDate.now().toString() : editedItem.getUpdateDate());
 
-        repository.saveAll(catalogue);
+        repository.saveAll(cache);
         return item;
     }
 
@@ -130,33 +134,27 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public List<MetricsDTO> getCategoriesWithMetrics() {
-        List<ItemsDTO> catalogue = repository.findAll();
-        Map<String, List<ItemsDTO>> grouped = catalogue.stream()
+        Map<String, List<ItemsDTO>> grouped = cache.stream()
                 .filter(item -> item.getCategory() != null)
                 .collect(Collectors.groupingBy(ItemsDTO::getCategory));
 
         List<MetricsDTO> metrics = new ArrayList<>();
 
-        for (Map.Entry<String, List<ItemsDTO>> e : grouped.entrySet()) {
+        return grouped.entrySet().stream().map(e -> {
             String category = e.getKey();
             List<ItemsDTO> items = e.getValue();
             int totalStock = items.stream().mapToInt(ItemsDTO::getStock).sum();
             double totalValue = items.stream().mapToDouble(item -> item.getPrice() * item.getStock()).sum();
             double averageValue = totalStock > 0 ? (totalValue / totalStock) : 0.0;
-            metrics.add(new MetricsDTO(category, totalStock, totalValue, averageValue));
-        }
-
-        return metrics;
+            return new MetricsDTO(category, totalStock, totalValue, averageValue);
+        }).collect(Collectors.toList());
     }
 
     private void updateStockAndSave(long id, int newStock) {
-        List<ItemsDTO> catalogue = repository.findAll();
-        Optional<ItemsDTO> found = catalogue.stream().filter(item -> item.getId() == id).findFirst();
-        if (found.isEmpty()) throw new ItemNotFoundException(id);
-        ItemsDTO item = found.get();
+        ItemsDTO item = findIdOrThrow(id);
         item.setStock(newStock);
         item.setUpdateDate(LocalDate.now().toString());
-        repository.saveAll(catalogue);
+        repository.saveAll(cache);
     }
 
     private Comparator<ItemsDTO> getComparatorForSort(int value) {
@@ -169,5 +167,11 @@ public class InventoryServiceImpl implements InventoryService {
             case 6: return Comparator.comparing(ItemsDTO::getExpirationDate, Comparator.nullsLast(String::compareTo));
             default: return null;
         }
+    }
+
+    private ItemsDTO findIdOrThrow(long id) {
+        return cache.stream().filter(item -> item.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new ItemNotFoundException(id));
     }
 }

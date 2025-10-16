@@ -203,15 +203,15 @@
   "price" : 35.0,
   "stock" : 20,
   "creationDate" : "2025-06-24",
-  "expirationDate" : "2026-05-24",
-  "updateDate" : "2025-06-25"
+  "expirationDate" : "2027-05-24",
+  "updateDate" : "2025-10-15"
 }, {
   "id" : 25,
   "category" : "Stationary",
   "name" : "Scissors",
-  "price" : 40.0,
+  "price" : 45.0,
   "stock" : 20,
-  "creationDate" : "2025-10-10",
+  "creationDate" : "2025-10-11",
   "expirationDate" : "",
-  "updateDate" : "2025-10-10"
+  "updateDate" : "2025-10-11"
 } ]

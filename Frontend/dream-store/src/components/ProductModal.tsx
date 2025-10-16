@@ -14,11 +14,54 @@ const ProductModal: React.FC = () => {
   } = useCatalogue();
 
   const [newCategory, setNewCategory] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setProductData({ ...productData, [name]: value });
   };
+
+  const validateForm = () => {
+  if (!productData.name) return "Name is required";
+  if (!productData.category) return "Category is required";
+
+  const price = Number(productData.price);
+  if (isNaN(price) || price < 0) return "Price must be a number and cannot be negative";
+
+  const stock = Number(productData.stock);
+  if (isNaN(stock) || stock < 0) return "Stock must be a number and cannot be negative";
+
+  if (productData.expirationDate) {
+    const today = new Date().toISOString().split("T")[0];
+    if (productData.expirationDate < today) {
+      return "Expiration date cannot be in the past";
+    }
+  }
+
+  return null;
+};
+
+const handleSubmit = () => {
+  const validationError = validateForm();
+  if (validationError) {
+    alert(validationError); // ✅ Ahora se usan alerts en lugar de mensajes en pantalla
+    return;
+  }
+
+  if (!productData.expirationDate) {
+    productData.expirationDate = "";
+  }
+
+  if (modalMode) {
+    addProduct(productData, setAddModal, setNewCategory, setProductData, refreshCatalgue);
+  } else {
+    editProduct(productData, setAddModal, setNewCategory, setProductData, refreshCatalgue);
+  }
+
+  closeModal();
+};
+
+
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -28,6 +71,7 @@ const ProductModal: React.FC = () => {
   const closeModal = () => {
     setAddModal(false);
     setNewCategory(false);
+    setError(null);
   };
 
   if (!addModal) return null; 
@@ -123,32 +167,20 @@ const ProductModal: React.FC = () => {
           </label>
           <input
             type="date"
-            id="input-exDate-add"
             name="expirationDate"
             value={String(productData.expirationDate)}
             onChange={handleChange}
-            className="w-full p-2 rounded bg-white border border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className={`w-full p-2 rounded bg-white border ${
+              error?.includes("Expiration") ? "border-red-500" : "border-neutral-600"
+            } focus:outline-none focus:ring-2 focus:ring-blue-400`}
           />
         </div>
 
         <div className="flex justify-end gap-2">
-          <button
-            onClick={() => {
-              if (modalMode) {
-                addProduct(productData, setAddModal, setNewCategory, setProductData, refreshCatalgue);
-              } else {
-                editProduct(productData, setAddModal, setNewCategory, setProductData, refreshCatalgue);
-              }
-              closeModal();
-            }}
-            className="btn btn-primary px-4 py-2"
-          >
+          <button onClick={handleSubmit} className="btn btn-primary px-4 py-2">
             {modalMode ? "Add" : "Edit"}
           </button>
-          <button
-            onClick={closeModal}
-            className="btn btn-danger px-4 py-2"
-          >
+          <button onClick={closeModal} className="btn btn-danger px-4 py-2">
             Cancel
           </button>
         </div>

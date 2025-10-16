@@ -1,12 +1,23 @@
 package com.dream.store.dtos;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class ItemsDTO {
     private long id;
+
+    @NotBlank(message = "Category is required")
     private String category;
+
+    @NotBlank(message = "Name is required")
     private String name;
+
+    @Positive(message = "Price must be greater than 0")
     private double price;
+
+    @Min(value = 0, message = "Stock cannot be negative")
     private int stock;
     private String expiration_date;
     private String creation_date;

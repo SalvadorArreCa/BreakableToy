@@ -4,6 +4,7 @@ import com.dream.store.dtos.ItemsDTO;
 import com.dream.store.dtos.MetricsDTO;
 import com.dream.store.dtos.ProductsPageDTO;
 import com.dream.store.services.InventoryService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ItemsDTO> addProduct(@RequestBody ItemsDTO product) {
+    public ResponseEntity<ItemsDTO> addProduct(@Valid @RequestBody ItemsDTO product) {
         ItemsDTO created = service.addProduct(product);
         return ResponseEntity.ok(created);
     }
@@ -45,7 +46,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ItemsDTO> editProduct(@PathVariable long id, @RequestBody ItemsDTO editedItem) {
+    public ResponseEntity<ItemsDTO> editProduct(@PathVariable long id, @Valid @RequestBody ItemsDTO editedItem) {
         ItemsDTO updated = service.updateProduct(id, editedItem);
         return ResponseEntity.ok(updated);
     }
